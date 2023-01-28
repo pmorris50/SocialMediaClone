@@ -1,0 +1,26 @@
+{
+  "name": "socialmediaclone",
+  "version": "1.0.0",
+  "description": "This application uses Express.js and mongoose to produce a social media website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "watch": "nodemon server.js",
+    "seed": "node seeds/seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pmorris50/SocialMediaClone.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pmorris50/SocialMediaClone/issues"
+  },
+  "homepage": "https://github.com/pmorris50/SocialMediaClone#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^6.9.0"
+  }
+}
