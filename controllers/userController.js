@@ -12,8 +12,16 @@ module.exports = {
             .catch((err)=>res.status(500).json(err)))
     },
     getSingleUser(req, res){
-        User.findOne({_id: req.params.courseId})
+        User.findOne({_id: req.params.userId})
         .select('--v')
+        .populate({
+            path: 'thoughts',
+            model: 'user'    
+        })
+        .populate({
+            path: 'friends',
+            model: 'user'
+        })
         .then((user) =>
         !user
             ? res.status(404).json({message: 'No user with that ID'})
@@ -26,7 +34,7 @@ module.exports = {
     },
     createUser(req, res){
         User.create(req.body)
-        .then((user) => res.json(course))
+        .then((user) => res.json(user))
         .catch((err) =>{
             console.log(err);
             return res.status(500).json(err);
@@ -48,12 +56,12 @@ module.exports = {
     },
     updateUser(req, res){
         User.findOneAndUpdate(
-            {_id: req.params.courseId},
+            {_id: req.params.userId},
             {$set: req.body},
             {runValidators: true, new: true}
         )
         .then((user) => {
-            !course 
+            !user 
               ? res.status(404).json({message: "No user with that id!"})
               : res.json(user)
         })
