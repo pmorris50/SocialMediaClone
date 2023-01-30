@@ -59,12 +59,93 @@ module.exports = {
     },
     createThought(req, res){
         Thought.create(req.body)
-            .then((thought) => res.json(thought))
-            .catch((err) =>{
-                console.log(err)
-                res.status(500).json(err)
+            .then(async (thought) => {
+                try {
+                    const user = await User.findOneAndUpdate(
+                        { _id: req.body.userId },
+                        { $push: { thoughts: thought._id } },
+                        { new: true }
+                    );
+                    res.json(thought);
+                } catch (err) {
+                    console.log(err);
+                    res.status(500).json(err);
+                }
             })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).json(err);
+            });
     },
+    updateThought(req, res){
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            req.body,
+            { new: true }
+        )
+            .then((thought) => {
+                if (!thought) {
+                    return res.status(404).json({ message: "Thought not found" });
+                }
+                res.json(thought);
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).json(err);
+            });
+    },
+    deleteThought(req, res) {
+        Thought.findOneAndDelete({ _id: req.params.thoughtId })
+            .then((thought) => {
+                if (!thought) {
+                    return res.status(404).json({ message: "Thought not found" });
+                }
+                res.json({ message: "Thought removed successfully" });
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).json(err);
+            });
+    },
+    createReaction(req, res) {
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $push: { reactions: req.body } },
+            { new: true }
+        )
+            .then((thought) => {
+                if (!thought) {
+                    return res.status(404).json({ message: "Thought not found" });
+                }
+                res.json(thought.reactions[thought.reactions.length - 1]);
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).json(err);
+            });
+    },deleteReaction(req, res) {
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $pull: { reactions: { reactionId: req.params.reactionId } } },
+            { new: true }
+        )
+            .then((thought) => {
+                if (!thought) {
+                    return res.status(404).json({ message: "Thought not found" });
+                }
+                res.json({ message: "Reaction deleted successfully" });
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).json(err);
+            });
+    
+
+    
+
     
 }
+}
+
+
 
