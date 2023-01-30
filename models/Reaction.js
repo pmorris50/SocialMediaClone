@@ -10,7 +10,13 @@ const reactionSchema = new Schema(
         
     },
     {
-        reactionBody: {
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
+    },
+    {
+        reactionbody: {
             type: String,
             required: true,
             maxLength: 280,
@@ -25,5 +31,10 @@ const reactionSchema = new Schema(
     }
 
 )
+reactionSchema
+    .virtual("createdAtFormatted")
+    .get(function () {
+        return moment(this.createdAt).format("MM/DD/YYYY");
+    });
 
 module.exports = reactionSchema

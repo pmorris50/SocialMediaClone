@@ -4,12 +4,12 @@ const {User, Thought} = require('../models');
 module.exports = {
     //get all users 
     getAllUsers(req, res){
-        User.find({}
+        User.find({})
             .then((users) =>{
                 console.log(users);
                 res.json(users)
             })
-            .catch((err)=>res.status(500).json(err)))
+            .catch((err)=>res.status(500).json(err))
     },
     getSingleUser(req, res){
         User.findOne({_id: req.params.userId})

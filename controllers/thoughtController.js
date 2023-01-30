@@ -114,6 +114,7 @@ module.exports = {
             { new: true }
         )
             .then((thought) => {
+                console.log("🚀 ~ file: thoughtController.js:117 ~ .then ~ thought", thought)
                 if (!thought) {
                     return res.status(404).json({ message: "Thought not found" });
                 }

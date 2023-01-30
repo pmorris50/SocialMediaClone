@@ -16,8 +16,8 @@ await Thought.deleteMany({});
 const users = [];
 
 for (let i = 0; i < 20; i++){
-    const username = getRandomUserName();
-    const email = getRandomEmail();
+    const username = getRandomUserName(20);
+    const email = getRandomEmail(20);
 
     users.push({
         username, 
@@ -29,7 +29,8 @@ for (let i = 0; i < 20; i++){
 const newUsers = await User.insertMany(users);
 
 
-console.table(users);
+
+console.table(newUsers);
 console.info('Seeding Complete!');
 process.exit(0);
 })
