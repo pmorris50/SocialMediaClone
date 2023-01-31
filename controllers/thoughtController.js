@@ -118,13 +118,14 @@ module.exports = {
                 if (!thought) {
                     return res.status(404).json({ message: "Thought not found" });
                 }
-                res.json(thought.reactions[thought.reactions.length - 1]);
+                res.json(thought);
             })
             .catch((err) => {
                 console.log(err);
                 res.status(500).json(err);
             });
-    },deleteReaction(req, res) {
+    },
+    deleteReaction(req, res) {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
             { $pull: { reactions: { reactionId: req.params.reactionId } } },

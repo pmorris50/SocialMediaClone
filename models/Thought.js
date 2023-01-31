@@ -8,24 +8,21 @@ const thoughtSchema = new Schema(
             required: true,
             min_length: 1,
             max_length: 280
-        }
-    },
-    {
+        },
+
         createdAt: {
             type: Date,
             default: Date.now
-        }
-    },
-    {
+        },
+
         username: {
             type: String,
             required: true
-        }
-    },
-    {
+        },
+
         reactions:
             [reactionSchema]
-        
+
     },
     {
         toJson: {
@@ -44,7 +41,7 @@ thoughtSchema
 
 thoughtSchema
     .virtual("reactionCount")
-    .get(function (){
+    .get(function () {
         return this.reactions.length
     })
 
